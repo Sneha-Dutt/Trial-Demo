@@ -29,18 +29,18 @@ jobs:
         cmake .
         sudo make install
 
-    # Create the build directory and run CMake to configure the project
-    - name: Build the project
+    # Create the build directory and run CMake to configure the project and generate compile_commands.json
+    - name: Build the project and generate compile_commands.json
       run: |
         mkdir build
         cd build
-        cmake ..
+        cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=YES ..
         make
 
-    # Run cppcheck analysis with exclusions and include paths
+    # Run cppcheck analysis with the compile_commands.json file
     - name: Run cppcheck analysis
       run: |
-        cppcheck --enable=all --inconclusive --force --xml --xml-version=2 --exclude build --std=c++17 --includes-file=/usr/include/c++/7 . 2> cppcheck.xml
+        cppcheck --enable=all --inconclusive --force --xml --xml-version=2 --project=build/compile_commands.json 2> cppcheck.xml
 
     # Check for cppcheck issues
     - name: Check for cppcheck issues
