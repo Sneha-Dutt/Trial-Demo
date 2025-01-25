@@ -21,8 +21,8 @@ jobs:
     - name: Install GCC, CMake, GoogleTest, cppcheck, and dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y gcc g++ cmake libgtest-dev build-essential cppcheck
-        # Manually build GoogleTest from source (if not installed)
+        sudo apt-get install -y gcc g++ cmake build-essential cppcheck
+        # Install GoogleTest from source
         cd /tmp
         git clone https://github.com/google/googletest.git
         cd googletest
@@ -32,12 +32,12 @@ jobs:
     # Run cppcheck analysis
     - name: Run cppcheck analysis
       run: |
-        cppcheck --enable=all --inconclusive --force --xml --xml-version=2 . 2> cppcheck.xml
-        
+        cppcheck --enable=all --inconclusive --force --xml --xml-version=2 --cppcheck-build-dir=build . 2> cppcheck.xml
+
     # Check for cppcheck issues
     - name: Check for cppcheck issues
       run: |
-        if [ -s cppcheck.xml ]; then
+        if grep -q "<error" cppcheck.xml; then
           echo "Cppcheck issues found!"
           cat cppcheck.xml
           exit 1
