@@ -17,14 +17,13 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    # Set up GCC and CMake
+    # Set up GCC
     - name: Set up GCC
-      uses: actions/setup-toolchain@v1
+      uses: actions/setup-gcc@v1
       with:
-        toolchain: gcc
-        version: 'latest'
+        gcc-version: 'latest'
 
-    # Install dependencies
+    # Install dependencies (CMake, GoogleTest)
     - name: Install dependencies
       run: |
         sudo apt-get update
@@ -50,4 +49,4 @@ jobs:
     - name: Run tests
       run: |
         cd build
-        ./your_test_executable # Replace with the actual test executable name
+        ./runTests
