@@ -11,7 +11,7 @@ add_executable(main main.cpp add_numbers.cpp)
 find_package(GTest REQUIRED)
 
 # Add test files
-add_executable(runTests test_add_numbers.cpp add_numbers.cpp)
+add_executable(runTests testToAddTwoNumbers.cpp addNumbers.cpp)
 
 # Link GoogleTest libraries
 target_link_libraries(runTests GTest::GTest GTest::Main)
