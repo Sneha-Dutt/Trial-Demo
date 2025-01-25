@@ -5,7 +5,7 @@ project(AddNumbers)
 enable_testing()
 
 # Add source files
-add_executable(main main.cpp add_numbers.cpp)
+add_executable(main main.cpp addNumbers.cpp)
 
 # Add GoogleTest
 find_package(GTest REQUIRED)
