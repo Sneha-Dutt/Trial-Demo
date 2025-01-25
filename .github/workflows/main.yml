@@ -32,7 +32,7 @@ jobs:
     # Run Cppcheck for static analysis
     - name: Run static analysis with Cppcheck
       run: |
-        cppcheck --enable=all --inconclusive --quiet .
+        cppcheck --enable=all --inconclusive .
 
     # Create the build directory and run CMake to configure the project and generate compile_commands.json
     - name: Build the project and generate compile_commands.json
