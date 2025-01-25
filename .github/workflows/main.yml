@@ -29,28 +29,18 @@ jobs:
         cmake .
         sudo make install
 
+    # Run Cppcheck for static analysis
+    - name: Run static analysis with Cppcheck
+      run: |
+        cppcheck --enable=all --inconclusive --maxn=5000 --quiet .
+
     # Create the build directory and run CMake to configure the project and generate compile_commands.json
     - name: Build the project and generate compile_commands.json
       run: |
         mkdir build
         cd build
-        cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=YES ..
-        make
-
-    # Run cppcheck analysis without specifying include paths explicitly
-    - name: Run cppcheck analysis
-      run: |
-        cppcheck --enable=all --inconclusive --force --xml --xml-version=2 --std=c++17 . 2> cppcheck.xml
-
-    # Check for cppcheck issues
-    - name: Check for cppcheck issues
-      run: |
-        if grep -q "<error" cppcheck.xml; then
-          echo "Cppcheck issues found!"
-          cat cppcheck.xml
-        else
-          echo "No cppcheck issues found."
-        fi
+        cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=YES .. # Optionally include other flags here
+        make CXXFLAGS="-Wall -Wextra -fsanitize=address"
 
     # Run tests using Google Test
     - name: Run tests
