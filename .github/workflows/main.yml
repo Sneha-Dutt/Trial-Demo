@@ -38,9 +38,10 @@ jobs:
         make
 
     # Run cppcheck analysis with the compile_commands.json file
-    - name: Run cppcheck analysis
-      run: |
-        cppcheck --enable=all --inconclusive --force --xml --xml-version=2 --project=build/compile_commands.json 2> cppcheck.xml
+- name: Run cppcheck analysis
+  run: |
+    cppcheck --enable=all --inconclusive --force --xml --xml-version=2 --std=c++17 --includes-file=/usr/include/c++/7 --includes-file=/path/to/googletest . 2> cppcheck.xml
+
 
     # Check for cppcheck issues
     - name: Check for cppcheck issues
