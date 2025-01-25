@@ -22,17 +22,18 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y gcc g++ cmake build-essential cppcheck
-        # Install GoogleTest from source
+        # Install GoogleTest from source if not already included in your project
         cd /tmp
         git clone https://github.com/google/googletest.git
         cd googletest
         cmake .
         sudo make install
 
-    # Run Cppcheck for static analysis
+    # Run Cppcheck for static analysis and provide the correct include path for Google Test
     - name: Run static analysis with Cppcheck
       run: |
-        cppcheck --enable=all --inconclusive --quiet --suppress=missingIncludeSystem .
+        # Replace '/usr/include/gtest' with the actual path if necessary
+        cppcheck --enable=all --inconclusive --quiet -I/usr/include/gtest .
 
     # Create the build directory and run CMake to configure the project and generate compile_commands.json
     - name: Build the project and generate compile_commands.json
