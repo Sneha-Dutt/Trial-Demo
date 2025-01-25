@@ -29,7 +29,15 @@ jobs:
         cmake .
         sudo make install
 
-    # Run cppcheck analysis
+    # Create the build directory and run CMake to configure the project
+    - name: Build the project
+      run: |
+        mkdir build
+        cd build
+        cmake ..
+        make
+
+    # Run cppcheck analysis using the build directory
     - name: Run cppcheck analysis
       run: |
         cppcheck --enable=all --inconclusive --force --xml --xml-version=2 --cppcheck-build-dir=build . 2> cppcheck.xml
@@ -44,14 +52,6 @@ jobs:
         else
           echo "No cppcheck issues found."
         fi
-
-    # Build the project
-    - name: Build the project
-      run: |
-        mkdir build
-        cd build
-        cmake ..
-        make
 
     # Run tests using Google Test
     - name: Run tests
