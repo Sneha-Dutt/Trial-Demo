@@ -37,10 +37,10 @@ jobs:
         cmake ..
         make
 
-    # Run cppcheck analysis using the build directory
+    # Run cppcheck analysis with exclusions and include paths
     - name: Run cppcheck analysis
       run: |
-        cppcheck --enable=all --inconclusive --force --xml --xml-version=2 --cppcheck-build-dir=build . 2> cppcheck.xml
+        cppcheck --enable=all --inconclusive --force --xml --xml-version=2 --exclude=build --std=c++17 --includes-file=/usr/include/c++/7 . 2> cppcheck.xml
 
     # Check for cppcheck issues
     - name: Check for cppcheck issues
