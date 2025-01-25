@@ -1,4 +1,4 @@
-name: C++ CI/CD Pipeline with Google Test
+name: CI Pipeline
 
 on:
   push:
@@ -13,23 +13,41 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    # Checkout the code from the repository
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Set up GCC
-        run: |
-          sudo apt update
-          sudo apt install -y build-essential cmake g++ googletest
+    # Set up GCC and CMake
+    - name: Set up GCC
+      uses: actions/setup-toolchain@v1
+      with:
+        toolchain: gcc
+        version: 'latest'
 
-      - name: Build the project
-        run: |
-          mkdir build
-          cd build
-          cmake ..
-          make
+    # Install dependencies
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake
+        sudo apt-get install -y libgtest-dev
+        sudo apt-get install -y build-essential
+        # Manually build GoogleTest from source (if not installed)
+        cd /tmp
+        git clone https://github.com/google/googletest.git
+        cd googletest
+        cmake .
+        sudo make install
 
-      - name: Run tests
-        run: |
-          cd build
-          ./runTests
+    # Build the project
+    - name: Build the project
+      run: |
+        mkdir build
+        cd build
+        cmake ..
+        make
 
+    # Run tests using Google Test
+    - name: Run tests
+      run: |
+        cd build
+        ./your_test_executable # Replace with the actual test executable name
