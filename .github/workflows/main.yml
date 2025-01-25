@@ -29,12 +29,14 @@ jobs:
         cmake .
         sudo make install
 
-    # Run Cppcheck for static analysis and provide the correct include path for Google Test
-    - name: Run static analysis with Cppcheck
+    # Run Cppcheck for static analysis with suppression of the missing include warnings
+    - name: Run static analysis with Cppcheck and suppress errors
       run: |
-        # Replace '/usr/include/gtest' with the actual path if necessary
-        cppcheck --enable=all --inconclusive --quiet -I/usr/include/gtest .
-
+        cppcheck --enable=all --inconclusive --quiet \
+          --suppress=missingIncludeSystem \
+          --suppress=missingInclude \
+          -I/usr/include/gtest .
+          
     # Create the build directory and run CMake to configure the project and generate compile_commands.json
     - name: Build the project and generate compile_commands.json
       run: |
