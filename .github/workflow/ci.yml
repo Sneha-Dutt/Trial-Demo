@@ -1,0 +1,35 @@
+name: C++ CI/CD Pipeline with Google Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up GCC
+        run: |
+          sudo apt update
+          sudo apt install -y build-essential cmake g++ googletest
+
+      - name: Build the project
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+          make
+
+      - name: Run tests
+        run: |
+          cd build
+          ./runTests
+
