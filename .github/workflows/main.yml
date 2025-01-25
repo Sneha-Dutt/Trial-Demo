@@ -17,19 +17,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    # Set up GCC
-    - name: Set up GCC
-      uses: actions/setup-gcc@v1
-      with:
-        gcc-version: 'latest'
-
-    # Install dependencies (CMake, GoogleTest)
-    - name: Install dependencies
+    # Install GCC, CMake, and dependencies
+    - name: Install GCC, CMake, and dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y cmake
-        sudo apt-get install -y libgtest-dev
-        sudo apt-get install -y build-essential
+        sudo apt-get install -y gcc g++ cmake libgtest-dev build-essential
         # Manually build GoogleTest from source (if not installed)
         cd /tmp
         git clone https://github.com/google/googletest.git
