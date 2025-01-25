@@ -37,10 +37,10 @@ jobs:
         cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=YES ..
         make
 
-    # Run cppcheck analysis with the compile_commands.json file
+    # Run cppcheck analysis without specifying include paths explicitly
     - name: Run cppcheck analysis
       run: |
-        cppcheck --enable=all --inconclusive --force --xml --xml-version=2 --std=c++17 --includes-file=/usr/include/c++/7 --includes-file=/path/to/googletest . 2> cppcheck.xml
+        cppcheck --enable=all --inconclusive --force --xml --xml-version=2 --std=c++17 . 2> cppcheck.xml
 
     # Check for cppcheck issues
     - name: Check for cppcheck issues
