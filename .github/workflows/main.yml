@@ -34,8 +34,7 @@ jobs:
       run: |
         cppcheck --enable=all --inconclusive --quiet \
           --suppress=missingIncludeSystem \
-          --suppress=missingInclude \
-          -I/usr/include/gtest .
+          --suppress=missingInclude .
           
     # Create the build directory and run CMake to configure the project and generate compile_commands.json
     - name: Build the project and generate compile_commands.json
